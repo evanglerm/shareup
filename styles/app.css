@@ -1,0 +1,14 @@
+.item-select select {
+	left: 32%;
+    width: 100%;
+    background: rgb(240,240,240);
+    margin: 5px 0px 5px 0px;
+}
+
+.margin_10_right {
+	margin: 0px 10px 0px 0px;
+}
+
+.border-color-222 {
+	border-color: rgb(222,222,222);
+}
