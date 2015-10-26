@@ -1,0 +1,89 @@
+<ion-view view-title="Forms">
+	
+	<ion-header-bar class="bar-subheader bar-default">
+
+		<h1 class="title">Templates</h1>
+			
+		<div class="buttons">
+			<button class="button button-icon icon ion-ios-plus-outline" ng-click="createNewTemplate()">Add</button>
+			<button class="button button-icon icon ion-ios-cloud-upload-outline" ng-click="saveToDataBase()" ng-show="isNewTemplate">Save</button>
+			<button class="button button-icon icon ion-android-close" ng-click="cancel()" ng-show="isNewTemplate">Cancel</button>
+		</div>
+	</ion-header-bar>
+
+	<ion-content>
+
+		<div ng-show="isNewTemplate">
+			<div class="list">
+				<div class="item item-input">
+					<span class="input-label">Template Name</span>
+					<input type="text" ng-model="$parent.templateName">
+				</div>
+
+					<div class="item item-input">
+					<span class="input-label">Number of fields</span>
+					<input type="number" ng-model="$parent.noOfFields" ng-change="$parent.changeNumberOfFields()"/>
+				</div>
+			</div>
+
+			<div class="list">
+				<div class="row" ng-repeat="object in getNumberOfFields() track by $index">
+					<label class="col item item-input">
+						<span class="input-label">Field Name {{$index+1}}</span>
+						<input type="text" ng-model="object.fieldName">
+					</label>
+
+					<label class="col item item-input item-select">
+						<div class="input-label">Field Type {{$index+1}}</div>
+						<div >
+							<select ng-model="object.fieldType">
+								<option selected>String</option>
+								<option>Number</option>
+		      					<option>DropDown</option>
+								<option>Date</option>
+						</select>
+						</div>
+		  			</label>
+
+		  			<label class="col item item-input">
+						<span class="input-label">Lenght {{$index+1}}</span>
+						<input type="text" ng-model="object.lenght">
+					</label>
+		  		</div>
+			</div>
+		</div>
+
+		<div ng-show="!isNewTemplate && !isTemplateSelected">
+			<ul class="list">
+   				<li class="item" ng-repeat="templates in templatesData">
+   					<div class="row">
+      					<div class="col col-75" ng-click="selectedTemplate(templates)">{{templates.name}}</div>
+      					<div class="col col-25 pull-right"><button class="button button-icon icon ion-ios-minus-outline pull-right" ng-click="removeItem(templates._id)"> remove</button></div>
+      				</div>
+    			</li>
+			</ul>
+		</div>
+
+		<div ng-show="isTemplateSelected">
+			<div class="card" ng-repeat="metadata in selectedTemplateJson.metadata">
+				<div class="item item-divider">
+					<div class="row">
+						<div class="col col-25">{{metadata.fieldName}}</div>
+						<div class="col col-75"><input ng-show="!checkIfDropDown(metadata.fieldType)" style="width: 100%;" type="{{metadata.fieldType | inputTypeFilter}}"/>
+							<select class="border-color-222" ng-show="checkIfDropDown(metadata.fieldType)" style="width: 100%;"></select>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+
+	</ion-content>
+
+	<div class="bar bar-subfooter bar-stable" ng-show="isTemplateSelected">
+  		<button class="button button-clear">Left</button>
+  		<div class="title">Title</div>
+  		<button class="button button-clear">Right</button>
+	</div>
+	
+</ion-view>
+
